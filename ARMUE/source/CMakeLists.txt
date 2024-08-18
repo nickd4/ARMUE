@@ -7,9 +7,9 @@ set(SOURCE_DIRS
 ./core
 ./utils
 ./arch/arm
-./peripheral
-./soc/arm
 )
+#./peripheral
+#./soc/arm
 
 #include directory
 include_directories(${SOURCE_DIRS})
@@ -18,7 +18,7 @@ include_directories(${SOURCE_DIRS})
 set(MAIN_APP ./ARMUE.c)
 
 #peripharal monitor
-set(PERI_MONITOR ./peripheral_monitor.c)
+#set(PERI_MONITOR ./peripheral_monitor.c)
 
 #tests
 set(SPEED_TEST ./test/speed_test.c)
@@ -30,28 +30,28 @@ set(ARM_INS_TEST ./test/armv7m_instruction_test.c)
 aux_source_directory(./core CORE_FILE)
 aux_source_directory(./utils UTILS_FILE)
 aux_source_directory(./arch/arm ARCH_ARM_FILE)
-aux_source_directory(./peripheral PERIPHERAL_FILE)
-aux_source_directory(./soc/arm SOC_ARM_FILE)
+#aux_source_directory(./peripheral PERIPHERAL_FILE)
+#aux_source_directory(./soc/arm SOC_ARM_FILE)
 
 SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O0 -Wall -Wl,-Map,debug.map -g -ggdb3 -finline-functions")
-link_libraries(wsock32)
+#link_libraries(wsock32)
 ADD_DEFINITIONS(-D_DEBUG)
 
 #executable and library name
-add_executable(peripheral_monitor
-${PERIPHERAL_FILE}
-${PERI_MONITOR}
-${UTILS_FILE}
-)
+#add_executable(peripheral_monitor
+#${PERIPHERAL_FILE}
+#${PERI_MONITOR}
+#${UTILS_FILE}
+#)
 
 add_executable(ARMUE
 ${MAIN_APP}
 ${CORE_FILE}
 ${UTILS_FILE}
 ${ARCH_ARM_FILE}
-${SOC_ARM_FILE}
-${PERIPHERAL_FILE}
 )
+#${PERIPHERAL_FILE}
+#${SOC_ARM_FILE}
 
 add_executable(Speed_test
 ${SPEED_TEST}

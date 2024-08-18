@@ -1,10 +1,10 @@
 #ifndef _MODULE_HELPER_H_
 #define _MODULE_HELPER_H_
 
-#include <tchar.h>
+typedef char _TCHAR; //#include <tchar.h>
 #include "cpu.h"
 #include "soc.h"
-#include "peripheral.h"
+//#include "peripheral.h"
 #include "error_code.h"
 
 #define MODULE_NAME_LENGTH 260

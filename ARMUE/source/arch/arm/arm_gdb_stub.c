@@ -1,4 +1,7 @@
+#include <netinet/in.h>
+#include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "_types.h"
 #include "arm_gdb_stub.h"
 #include "arm_v7m_ins_decode.h"
@@ -42,7 +45,7 @@ int wait_for_rsp_client(gdb_stub_t *stub)
     memset(&client_addr, 0, sizeof(client_addr));
     int addrlen = sizeof(client_addr);
     // accept
-    if((stub->client = accept(stub->server, (struct sockaddr*)&client_addr, &addrlen)) == INVALID_SOCKET){
+    if((stub->client = accept(stub->server, (struct sockaddr*)&client_addr, &addrlen)) == /*INVALID_SOCKET*/-1){
         LOG(LOG_ERROR, "fail to accept socket\n");
         return -1;
     }
@@ -52,6 +55,7 @@ int wait_for_rsp_client(gdb_stub_t *stub)
 
 int init_stub(gdb_stub_t *stub)
 {
+#if 0
     WSADATA wsa;
 
     // initialize windows socket dll
@@ -59,25 +63,26 @@ int init_stub(gdb_stub_t *stub)
         LOG(LOG_ERROR, "fail to start windows socket\n");
         return -1;
     }
+#endif
     // create socket
-    if((stub->server = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP)) == INVALID_SOCKET){
+    if((stub->server = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP)) == /*INVALID_SOCKET*/-1){
         LOG(LOG_ERROR, "fail to create socket\n");
         return -1;
     }
     struct sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(struct sockaddr_in));
     server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
+    server_addr.sin_addr/*.S_un*/.s_addr = htonl(INADDR_ANY);
     server_addr.sin_port = htons(stub->port);
 
     // bind
-    if(bind(stub->server,(struct sockaddr*)&server_addr, sizeof(server_addr)) == SOCKET_ERROR){
+    if(bind(stub->server,(struct sockaddr*)&server_addr, sizeof(server_addr)) == /*SOCKET_ERROR*/-1){
         LOG(LOG_ERROR, "fail to bind port %d\n", stub->port);
         goto bind_fail;
     }
 
     // listen
-    if(listen(stub->server, SOMAXCONN) == SOCKET_ERROR){
+    if(listen(stub->server, SOMAXCONN) == /*SOCKET_ERROR*/-1){
         LOG(LOG_ERROR, "fail to listen port %d\n", stub->port);
         goto listen_fail;
     }
@@ -91,7 +96,9 @@ int init_stub(gdb_stub_t *stub)
 wait_fail:
 listen_fail:
 bind_fail:
+#if 0
     WSACleanup();
+#endif
     return -1;
 }
 
@@ -248,7 +255,7 @@ static void get_registers(gdb_stub_t *stub, int start, int end, cpu_t *cpu)
     }
 
     for(i = start; i <= end; i++){
-        if(((cm_scs_t *)cpu->system_info)->config.endianess == LITTLE_ENDIAN){
+        if(((cm_scs_t *)cpu->system_info)->config.endianess == _LITTLE_ENDIAN){
             reg = htonl(regs->R[i]);
         }else{
             reg = regs->R[i];

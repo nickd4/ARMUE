@@ -86,7 +86,7 @@ ins_t decode_armcm3_cpu(cpu_t* cpu, void* opcode)
         ins_info.length = 16;
         cpu->run_info.ins_type = ARM_INS_THUMB16;
     }else{
-        if(((cm_scs_t *)cpu->system_info)->config.endianess == LITTLE_ENDIAN){
+        if(((cm_scs_t *)cpu->system_info)->config.endianess == _LITTLE_ENDIAN){
             /* exchange low and high 16bit */
             ins_info.opcode = ((opcode32 >> 16) & 0x0000FFFF) | ((opcode32 << 16) & 0xFFFF0000);
         }

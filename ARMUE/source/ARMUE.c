@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <tchar.h>
+typedef char _TCHAR; //#include <tchar.h>
 #include <stdlib.h>
 #include <string.h>
 #include "module_helper.h"
@@ -10,13 +10,13 @@
 #include "soc.h"
 #include "config.h"
 
-#include "windows.h"
-#include "core_connect.h"
+//#include "windows.h"
+//#include "core_connect.h"
 
-#include "lpc1768_uart.h"
+//#include "lpc1768_uart.h"
 
 // connect to peripheral monitor
-static core_connect_t *g_peri_connect;
+//static core_connect_t *g_peri_connect;
 
 const char short_options[] = "hgc:";
 const struct option long_options[] = {
@@ -27,11 +27,12 @@ const struct option long_options[] = {
 };
 
 
-/* for other part of the program that want to know the connect to the peripheral */
+#if 0 /* for other part of the program that want to know the connect to the peripheral */
 core_connect_t *armue_get_peri_connect()
 {
     return g_peri_connect;
 }
+#endif
 
 int main(int argc, char **argv)
 {
@@ -60,6 +61,7 @@ int main(int argc, char **argv)
         }
     };
 
+#if 0
     int retval;
     if(config.client){
         g_peri_connect = create_core_connect(1024, config.pipe_name);
@@ -68,6 +70,7 @@ int main(int argc, char **argv)
             return -1;
         }
     }
+#endif
 
     // register all exsisted modules
     register_all_modules();
@@ -120,7 +123,7 @@ int main(int argc, char **argv)
         }
     }
 
-    lpc1768_uart_init(soc->cpu[0]);
+    //lpc1768_uart_init(soc->cpu[0]);
 
     // main loop for emulation
     startup_soc(soc);

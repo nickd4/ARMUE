@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <tchar.h>
+typedef char _TCHAR; //#include <tchar.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>

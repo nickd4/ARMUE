@@ -4,9 +4,9 @@
 extern "C"{
 #endif
 
-#include "core_connect.h"
+//#include "core_connect.h"
 
-core_connect_t *armue_get_peri_connect();
+//core_connect_t *armue_get_peri_connect();
 
 #ifdef __cplusplus
 }

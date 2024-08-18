@@ -274,7 +274,7 @@ int cm_scs_init(cpu_t *cpu) //,soc_conf_t* config)
     region->type = MEMORY_REGION_SYS;
 
     /* some configs */
-    scs->config.endianess = LITTLE_ENDIAN;
+    scs->config.endianess = _LITTLE_ENDIAN;
     scs->config.prigroup  = 1;
     /* enable Debug Halting and disable Debug Exception default, refering to page 830 */
     scs->regs.DHCSR = 0x00000001;

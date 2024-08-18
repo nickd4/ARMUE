@@ -4,8 +4,12 @@
 extern "C"{
 #endif
 
+#if 1
+#include <sys/socket.h>
+#else
 #include <winsock2.h>
 #include <windows.h>
+#endif
 #include "cpu.h"
 #include "hash.h"
 #include "_types.h"
@@ -34,8 +38,8 @@ typedef struct bp_t{
 typedef struct gdb_stub_t{
     int status;
     int port;
-    SOCKET server;
-    SOCKET client;
+    /*SOCKET*/int server;
+    /*SOCKET*/int client;
     char send_buf[MAX_PACKET_SIZE];
     int send_len;
     char recv_buf[MAX_PACKET_SIZE];

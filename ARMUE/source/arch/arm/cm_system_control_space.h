@@ -14,8 +14,8 @@ extern "C"{
 #define CM_SCS_SIZE 4096
 
 
-#define LITTLE_ENDIAN   0
-#define BIG_ENDIAN      1
+#define _LITTLE_ENDIAN   0
+#define _BIG_ENDIAN      1
 
 typedef struct cm_config_t{
     int endianess;
@@ -30,7 +30,7 @@ struct cm_scs_t{
     cm_config_t config;
     cm_scs_reg_t regs;
     struct systick_reg_t systick_regs;
-    timer_t *systick;
+    _timer_t *systick;
     cpu_t *cpu;
     void* user_defined_data;
     vector_exception_t *NVIC;

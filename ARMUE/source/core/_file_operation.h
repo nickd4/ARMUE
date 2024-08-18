@@ -2,7 +2,7 @@
 #define __FILE_OPERATION_
 
 #include "error_code.h"
-#include <tchar.h>
+typedef char _TCHAR; //#include <tchar.h>
 
 error_code_t goto_path(_TCHAR* path);
 _TCHAR* find_file();

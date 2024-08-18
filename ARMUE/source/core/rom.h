@@ -5,7 +5,7 @@ extern "C"{
 #endif
 
 #include <stdio.h>
-#include <tchar.h>
+typedef char _TCHAR; //#include <tchar.h>
 #include "_types.h"
 #include "error_code.h"
 

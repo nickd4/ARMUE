@@ -130,7 +130,7 @@ thumb_translate32_t decode32_101(uint32_t ins_code, cpu_t *cpu)
     }
 }
 
-inline char *to_string_shift_t(uint32_t shift_t)
+static inline char *to_string_shift_t(uint32_t shift_t)
 {
     switch(shift_t){
     case SRType_LSL:
@@ -586,7 +586,7 @@ void _ldr_literal_16(uint16_t ins_code, cpu_t* cpu)
     LOG_INSTRUCTION("_ldr_literal_16 R%d,[PC,#%d]\n", Rt, imm8);
 }
 
-inline void decode_ldr_str_reg_16(uint16_t ins_code, Output uint32_t* Rm, Output uint32_t* Rt, Output uint32_t* Rn)
+static inline void decode_ldr_str_reg_16(uint16_t ins_code, Output uint32_t* Rm, Output uint32_t* Rt, Output uint32_t* Rn)
 {
     *Rt = LOW_BIT16(ins_code, 3);
     *Rn = LOW_BIT16(ins_code>>3, 3);
@@ -677,7 +677,7 @@ void _ldrsh_reg_16(uint16_t ins_code, cpu_t* cpu)
     LOG_INSTRUCTION("_ldrb_reg_16 R%d,[R%d,R%d]\n", Rt, Rn, Rm);
 }
 
-inline void decode_ldr_str_imm_16(uint16_t ins_code, Output uint32_t* imm, Output uint32_t* Rt, Output uint32_t* Rn)
+static inline void decode_ldr_str_imm_16(uint16_t ins_code, Output uint32_t* imm, Output uint32_t* Rt, Output uint32_t* Rn)
 {
     *Rt = LOW_BIT16(ins_code, 3);
     *Rn = LOW_BIT16(ins_code>>3, 3);
@@ -756,7 +756,7 @@ void _ldrh_imm_16(uint16_t ins_code, cpu_t* cpu)
     LOG_INSTRUCTION("_ldrh_imm_16 R%d,[R%d,#0x%d]\n", Rt, Rn, imm5);
 }
 
-inline void decode_ldr_str_sp_imm_16(uint16_t ins_code, Output uint32_t* imm, Output uint32_t* Rt)
+static inline void decode_ldr_str_sp_imm_16(uint16_t ins_code, Output uint32_t* imm, Output uint32_t* Rt)
 {
     *imm = LOW_BIT16(ins_code, 8);
     *Rt = LOW_BIT16(ins_code>>8, 3);
@@ -858,7 +858,7 @@ void _cbnz_cbz_16(uint16_t ins_code, cpu_t* cpu)
 
 }
 
-inline void decode_rm_rd_16(uint16_t ins_code, uint32_t *Rm, uint32_t *Rd)
+static inline void decode_rm_rd_16(uint16_t ins_code, uint32_t *Rm, uint32_t *Rd)
 {
     *Rd = LOW_BIT16(ins_code, 3);
     *Rm = LOW_BIT16(ins_code>>3, 3);
@@ -1551,7 +1551,7 @@ thumb_translate32_t tbb_h_ldrexb_h_32(uint32_t ins_code, cpu_t *cpu)
 #define DATA_PROCESS32_REG_OP2(ins_code) LOW_BIT32((ins_code) >> 4, 4)
 #define DATA_PROCESS32_ROTATE(ins_code) LOW_BIT32((ins_code) >> 4, 2)
 
-inline void get_shift_imm5_32(uint32_t ins_code, Output uint32_t *type, Output uint32_t *imm5)
+static inline void get_shift_imm5_32(uint32_t ins_code, Output uint32_t *type, Output uint32_t *imm5)
 {
     *type = DATA_PROCESS32_TYPE(ins_code);
     uint32_t imm2 = DATA_PROCESS32_IMM2(ins_code);
@@ -1559,14 +1559,14 @@ inline void get_shift_imm5_32(uint32_t ins_code, Output uint32_t *type, Output u
     *imm5 = imm3 << 2 | imm2;
 }
 
-inline void data_process_reg_shift(uint32_t ins_code, uint32_t *shift_t, uint32_t *shift_n)
+static inline void data_process_reg_shift(uint32_t ins_code, uint32_t *shift_t, uint32_t *shift_n)
 {
     uint32_t type, imm5;
     get_shift_imm5_32(ins_code, &type, &imm5);
     DecodeImmShift(type, imm5, shift_t, shift_n);
 }
 
-inline void get_shift_imm_32_params(uint32_t ins_code, uint32_t type, uint32_t *Rd, uint32_t *Rm, bool_t *setflags, uint32_t *shift_n)
+static inline void get_shift_imm_32_params(uint32_t ins_code, uint32_t type, uint32_t *Rd, uint32_t *Rm, bool_t *setflags, uint32_t *shift_n)
 {
     *Rd = DATA_PROCESS32_RD(ins_code);
     *Rm = DATA_PROCESS32_RM(ins_code);
@@ -3318,7 +3318,7 @@ thumb_translate32_t branch_misc_ctrl(uint32_t ins_code, cpu_t *cpu)
 #define MEM_ACCESS32_LITERAL_U(ins_code) LOW_BIT32((ins_code) >> 23, 1)
 
 /* parameters for the instructions with imm12 using immediate */
-inline void get_mem_access32_imm1_params(uint32_t ins_code, uint32_t *Rn, uint32_t *Rt, uint32_t *imm32, bool_t *index, bool_t *add, bool_t *wback)
+static inline void get_mem_access32_imm1_params(uint32_t ins_code, uint32_t *Rn, uint32_t *Rt, uint32_t *imm32, bool_t *index, bool_t *add, bool_t *wback)
 {
     *Rn = MEM_ACCESS32_RN(ins_code);
     *Rt = MEM_ACCESS32_RT(ins_code);
@@ -3329,7 +3329,7 @@ inline void get_mem_access32_imm1_params(uint32_t ins_code, uint32_t *Rn, uint32
 }
 
 /* parameters for the instructions with U & P & W & imm8 using immediate */
-inline void get_mem_access32_imm2_params(uint32_t ins_code, uint32_t *Rn, uint32_t *Rt, uint32_t *imm32, bool_t *index, bool_t *add, bool_t *wback)
+static inline void get_mem_access32_imm2_params(uint32_t ins_code, uint32_t *Rn, uint32_t *Rt, uint32_t *imm32, bool_t *index, bool_t *add, bool_t *wback)
 {
     *Rn = MEM_ACCESS32_RN(ins_code);
     *Rt = MEM_ACCESS32_RT(ins_code);
@@ -3340,7 +3340,7 @@ inline void get_mem_access32_imm2_params(uint32_t ins_code, uint32_t *Rn, uint32
 }
 
 /* parameters for the instructions using register */
-inline void get_mem_access32_reg_params(uint32_t ins_code, uint32_t *Rn, uint32_t *Rt, uint32_t *Rm, uint32_t *shift_t, uint32_t *shift_n)
+static inline void get_mem_access32_reg_params(uint32_t ins_code, uint32_t *Rn, uint32_t *Rt, uint32_t *Rm, uint32_t *shift_t, uint32_t *shift_n)
 {
     *Rn = MEM_ACCESS32_RN(ins_code);
     *Rt = MEM_ACCESS32_RT(ins_code);
@@ -3349,14 +3349,14 @@ inline void get_mem_access32_reg_params(uint32_t ins_code, uint32_t *Rn, uint32_
     *shift_t = SRType_LSL;
 }
 
-inline void get_mem_access32_literal_params(uint32_t ins_code, uint32_t *Rt, uint32_t *imm32, bool_t *add)
+static inline void get_mem_access32_literal_params(uint32_t ins_code, uint32_t *Rt, uint32_t *imm32, bool_t *add)
 {
     *Rt = MEM_ACCESS32_RT(ins_code);
     *imm32 = MEM_ACCESS32_IMM12(ins_code);
     *add = MEM_ACCESS32_LITERAL_U(ins_code);
 }
 
-inline void get_mem_access32_unprivileged_params(uint32_t ins_code, uint32_t *Rn, uint32_t *Rt, uint32_t *imm32)
+static inline void get_mem_access32_unprivileged_params(uint32_t ins_code, uint32_t *Rn, uint32_t *Rt, uint32_t *imm32)
 {
     *Rt = MEM_ACCESS32_RT(ins_code);
     *Rn = MEM_ACCESS32_RN(ins_code);
@@ -3625,7 +3625,7 @@ void _ldrsb_reg_32(uint32_t ins_code, cpu_t *cpu)
    where Rn = 1111 ? 1 : 0
    and   Rt = 1111 ? 1 : 0
    then decode by op2 sencondly */
-inline uint32_t COMBINE_MEM_ACCESS_RN_RT_OP1(uint32_t ins_code)
+static inline uint32_t COMBINE_MEM_ACCESS_RN_RT_OP1(uint32_t ins_code)
 {
     uint32_t op1 = LOW_BIT32(ins_code >> 23, 2);
     uint32_t Rn_mod = MEM_ACCESS32_RN(ins_code) == 0xF ? 1 : 0;

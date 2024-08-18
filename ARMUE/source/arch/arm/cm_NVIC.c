@@ -13,7 +13,7 @@ enum cm_NVIC_prio{
 
 
 /* ARMv7-M defined operation */
-inline void DeActivate(int exc_num, cpu_t *cpu)
+static inline void DeActivate(int exc_num, cpu_t *cpu)
 {
     cm_NVIC_t *NVIC_info = (cm_NVIC_t *)cpu->cm_NVIC->controller_info;
     arm_reg_t *regs = ARMv7m_GET_REGS(cpu);
@@ -344,7 +344,7 @@ rom_t* find_startup_rom(memory_map_t* memory)
     return (rom_t*)region->region_data;
 }
 
-inline int cm_NVIC_get_preempt_proi(int cm_prio, cm_NVIC_t* info)
+static inline int cm_NVIC_get_preempt_proi(int cm_prio, cm_NVIC_t* info)
 {
     return (cm_prio & info->prio_mask) & info->preempt_mask;
 }

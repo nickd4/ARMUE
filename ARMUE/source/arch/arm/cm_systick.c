@@ -21,7 +21,7 @@ void disable_systick(cpu_t *cpu)
     scs->systick = NULL;
 }
 
-int systick_do_match(timer_t *timer, cpu_t *cpu)
+int systick_do_match(_timer_t *timer, cpu_t *cpu)
 {
     LOG(LOG_DEBUG, "systick_do_match\n");
     cm_scs_t *scs = (cm_scs_t *)cpu->system_info;
@@ -63,7 +63,7 @@ int SYST_CSR(uint8_t* data, int rw_flag, cm_scs_t *scs)
                 return -2;
             }
 
-            timer_t *timer = create_timer(CM_NVIC_VEC_SYSTICK);
+            _timer_t *timer = create_timer(CM_NVIC_VEC_SYSTICK);
             if(timer == NULL){
                 return -1;
             }

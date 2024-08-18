@@ -1,5 +1,6 @@
-#include <windows.h>
-#include <tchar.h>
+#if 0
+//#include <windows.h>
+typedef char _TCHAR; //#include <tchar.h>
 #include "error_code.h"
 
 static wchar_t g_path[MAX_PATH];
@@ -49,4 +50,4 @@ void stop_find_file()
 {
     FindClose(hFind);
 }
-
+#endif

@@ -85,7 +85,7 @@ void ASR_C(uint32_t val, int shift, Output uint32_t* result, Output int *carry_o
     *result = _ASR32(val, shift);
 }
 
-inline uint32_t _ROR32(uint32_t val, int amount)
+static inline uint32_t _ROR32(uint32_t val, int amount)
 {
     uint32_t shift_out = val << (32 - amount);
     return val >> amount | shift_out;
@@ -133,7 +133,7 @@ void Shift_C(uint32_t val, SRType type, int amount, int carry_in, Output uint32_
     }
 }
 
-inline void Shift(uint32_t val, SRType type, int amount, int carry_in, Output uint32_t* result)
+static inline void Shift(uint32_t val, SRType type, int amount, int carry_in, Output uint32_t* result)
 {
     int carry_out;
     Shift_C(val, type, amount, carry_in, result, &carry_out);
@@ -179,7 +179,7 @@ int ThumbExpandImm_C(uint32_t imm12, uint32_t carry_in, uint32_t *imm32, int*car
     return 0;
 }
 
-inline uint8_t CurrentCond(arm_reg_t* regs)
+static inline uint8_t CurrentCond(arm_reg_t* regs)
 {
     return (GET_ITSTATE(regs)>>4) & 0xF;
 }
@@ -227,7 +227,7 @@ uint8_t ConditionPassed(uint8_t branch_cond, arm_reg_t* regs)
 }
 
 /*<<ARMv7-M Architecture Reference Manual A2-43>>*/
-inline void AddWithCarry(uint32_t op1, uint32_t op2, uint32_t carry_in, uint32_t* result, uint32_t* carry_out, uint32_t *overflow)
+static inline void AddWithCarry(uint32_t op1, uint32_t op2, uint32_t carry_in, uint32_t* result, uint32_t* carry_out, uint32_t *overflow)
 {
     /* uint64_t is 64bit */
     if(sizeof(uint64_t) == 8){
@@ -298,19 +298,19 @@ void UnsignedSatQ(int32_t i, int32_t N, uint32_t *result, bool_t *saturated)
 }
 
 /* <<ARMv7-M Architecture Reference Manual 630>> */
-inline void BranchTo(uint32_t address, arm_reg_t* regs)
+static inline void BranchTo(uint32_t address, arm_reg_t* regs)
 {
     SET_REG_VAL(regs, PC_INDEX, address);
 }
 
 /* <<ARMv7-M Architecture Reference Manual 47>> */
-inline void BranchWritePC(uint32_t address, arm_reg_t* regs)
+static inline void BranchWritePC(uint32_t address, arm_reg_t* regs)
 {
     BranchTo(DOWN_ALIGN(address, 1), regs);
 }
 
 /* <<ARMv7-M Architecture Reference Manual 48>> */
-inline void ALUWritePC(uint32_t address, arm_reg_t* regs)
+static inline void ALUWritePC(uint32_t address, arm_reg_t* regs)
 {
     BranchWritePC(address, regs);
 }
@@ -355,7 +355,7 @@ void armv7m_push(uint32_t reg_val, cpu_t* cpu)
 
 
 /* <<ARMv7-M Architecture Reference Manual 47>> */
-inline void LoadWritePC(uint32_t address, cpu_t *cpu)
+static inline void LoadWritePC(uint32_t address, cpu_t *cpu)
 {
     BXWritePC(address, cpu);
 }
@@ -399,7 +399,7 @@ int MemU_with_priv(uint32_t address, int size, IOput uint8_t* buffer, bool_t pri
     return retval;
 }
 
-inline int MemU_unpriv(uint32_t address, int size, IOput uint8_t *buffer, int type, cpu_t *cpu)
+static inline int MemU_unpriv(uint32_t address, int size, IOput uint8_t *buffer, int type, cpu_t *cpu)
 {
     return MemU_with_priv(address, size, buffer, FALSE, type, cpu);
 }
@@ -4485,7 +4485,7 @@ if ConditionPassed() then
     SetExclusiveMonitors(address,1);
     R[t] = ZeroExtend(MemA[address,1], 32);
 **************************************/
-inline void _ldrexb_h(uint32_t Rn, uint32_t Rt, cpu_t *cpu, int size)
+static inline void _ldrexb_h(uint32_t Rn, uint32_t Rt, cpu_t *cpu, int size)
 {
     arm_reg_t* regs = ARMv7m_GET_REGS(cpu);
     if(!ConditionPassed(0, regs)){

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <tchar.h>
+typedef char _TCHAR; //#include <tchar.h>
 #include <stdlib.h>
 #include <string.h>
 #include "module_helper.h"
@@ -263,7 +263,7 @@ int main(int argc, char **argv)
     if(SUCCESS != open_rom("../../test.rom", rom)){
         return -1;
     }
-    fill_rom_with_bin(rom, "../../test_example/test.bin");
+    fill_rom_with_bin(rom, 0, "../../test_example/test.bin");
     int result = setup_memory_map_rom(memory_map, rom, 0x00);
     if(result < 0){
         LOG(LOG_ERROR, "Faild to setup ROM\n");

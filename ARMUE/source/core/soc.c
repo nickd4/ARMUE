@@ -3,10 +3,10 @@
 //#include "arm_gdb_stub.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include <windows.h>
+//#include <windows.h>
 #include "config.h"
 #include "timer.h"
-#include "armue.h"
+#include "ARMUE.h"
 
 int startup_soc(soc_t* soc)
 {
@@ -74,6 +74,7 @@ uint32_t run_soc(soc_t* soc)
     add_cycle(cpu);
     check_timer(cpu);
 
+#if 0
     /* check peripheral input every 100 */
     pmp_parsed_pkt_t pmp_pkt;
     int result;
@@ -93,6 +94,7 @@ uint32_t run_soc(soc_t* soc)
         }
         updata_check_point(cpu, 10);
     }
+#endif
 
     /* exception and interrupt checker/handler */
     if(cpu->GIC){
